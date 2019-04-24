@@ -1,12 +1,13 @@
-FROM alpine:edge AS build
+FROM alpine:edge AS jupytercloud-project/build-packer
 RUN apk update
 RUN apk upgrade
 RUN apk add --update go gcc g++ git make musl-dev
 WORKDIR /app
-ENV GOPATH /app
-ENV CGO_ENABLED 1
-ENV GOOS linux
-RUN mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
+ENV GOPATH="/app" \
+    CGO_ENABLED="1" \
+    GOOS="linux"
+RUN ln -s /lib /lib64 && \
+    mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
     cd $_ && \
     git clone https://github.com/hashicorp/packer.git && \
     cd packer && \
@@ -15,8 +16,10 @@ RUN mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
 #RUN CGO_ENABLED=1 GOOS=linux go install -a server
 
 # FROM alpine:latest
-#FROM alpine:edge
-
+FROM alpine:edge AS jupytercloud-project/packer-qemu
+COPY --from=jupytercloud-project/build-packer \
+     /app/src/github.com/hashicorp/packer \
+     /bin/packer
 #
 # https://wiki.alpinelinux.org/wiki/Edge
 #
