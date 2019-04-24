@@ -9,4 +9,4 @@ jobs:
      - run: |
          # docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker run --detach --name wip alpine:latest
-         
+         docker exec sh -c 'apk add packer qemu'
