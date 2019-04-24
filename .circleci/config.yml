@@ -19,7 +19,7 @@ jobs:
 #                   --tag jupytercloud-project/build-packer \
 #                   --file Dockerfile.build \
 #                   .
-     - run: \
+     - run: |
          docker build \
                 --compress \
                 --tag jupytercloud-project/build-container:latest \
