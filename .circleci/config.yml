@@ -11,4 +11,5 @@ jobs:
      - run: |
          # docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker run --name $IMAGE_NAME --detach --interactive --rm alpine:latest sh
+         docker exec $IMAGE_NAME sh -c 'apk update'
          docker exec $IMAGE_NAME sh -c 'apk add packer qemu'
