@@ -9,7 +9,8 @@ jobs:
      # start proprietary DB using private Docker image
      # with credentials stored in the UI
      # - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-     - run: docker run --name $IMAGE_NAME --detach --interactive --rm alpine:latest sh
-     - run: docker exec $IMAGE_NAME sh -c 'apk update'
-     - run: docker exec $IMAGE_NAME sh -c 'apk add qemu'
-     - run: docker image ls --all
+     #- run: docker run --name $IMAGE_NAME --detach --interactive --rm alpine:latest sh
+     #- run: docker exec $IMAGE_NAME sh -c 'apk update'
+     #- run: docker exec $IMAGE_NAME sh -c 'apk add qemu'
+     #- run: docker image ls --all
+     - docker build
