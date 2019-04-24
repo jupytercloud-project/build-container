@@ -9,10 +9,6 @@ jobs:
      HGR: github.com/tcnksm/ghr
      RELEASE_VERSION: 0.0.1
    steps:
-     - run:
-         name: LS
-         command: |
-           ls -alFH
      - checkout
      - run: 
          name: "Building docker image"
@@ -38,8 +34,8 @@ jobs:
      - run:
          name: "Publishing release on GitHub"
          command: |
-           go get ${GHR}
-           VERSION=
+           go get ${GHR} && \
+           VERSION=${RELEASE_VERSION} \
            ghr -t ${GITHUB_TOKEN} \
                -u ${CIRCLE_PROJECT_USERNAME} \
                -r ${CIRCLE_PROJECT_REPONAME} \
