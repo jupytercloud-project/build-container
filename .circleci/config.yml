@@ -2,6 +2,7 @@ version: 2
 jobs:
  build:
    machine: true
+   shell: /bin/bash --login -eo pipefail 
    steps:
      - checkout
      - run:
@@ -13,7 +14,6 @@ jobs:
            echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
            echo 'export GHR=github.com/tcnksm/ghr' >> ${BASH_ENV}
            echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
-           source ${BASH_ENV}
      - run: 
          name: "Building docker image"
          command: |
