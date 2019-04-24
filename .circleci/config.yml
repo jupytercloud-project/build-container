@@ -13,8 +13,6 @@ jobs:
          name: LS
          command: |
            ls -alFH
-     - attach_workspace:
-         at: ${ARTIFACT_DIR}
      - checkout
      - run: 
          name: "Building docker image"
@@ -25,6 +23,8 @@ jobs:
                   --file Dockerfile \
                   .
      - run: docker image ls --all
+     - attach_workspace:
+         at: ${ARTIFACT_DIR}
      - run:
          name: "Saving docker image"
          command: |
