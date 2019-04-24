@@ -1,6 +1,11 @@
 FROM alpine:latest
+
+#
+# https://wiki.alpinelinux.org/wiki/Edge
+#
 RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
     apk update && \
+    apk upgrade --available && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add go-tools git make && \
