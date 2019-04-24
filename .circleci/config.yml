@@ -2,15 +2,18 @@ version: 2
 jobs:
  build:
    machine: true
-   environment:
-     IMAGE_TAG: latest
-     IMAGE_NAME: ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}
-     ARTIFACT_DIR: ./artifacts
-     ARTIFACT_NAME: ${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}
-     GHR: github.com/tcnksm/ghr
-     RELEASE_VERSION: 0.0.1
    steps:
      - checkout
+     - run:
+         name: "Define environment variables"
+         command: |
+           echo 'export IMAGE_TAG=latest' >> ${BASH_ENV}
+           echo 'export IMAGE_NAME=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}' >> ${BASH_ENV}
+           echo 'export ARTIFACT_DIR=./artifacts' >> ${BASH_ENV}
+           echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
+           echo 'export GHR=github.com/tcnksm/ghr' >> ${BASH_ENV}
+           echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
+           source ${BASH_ENV}
      - run: 
          name: "Building docker image"
          command: |
