@@ -6,8 +6,7 @@ WORKDIR /app
 ENV GOPATH="/app" \
     CGO_ENABLED="1" \
     GOOS="linux"
-RUN ln -s /lib /lib64 && \
-    mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
+RUN mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
     cd $_ && \
     git clone https://github.com/hashicorp/packer.git && \
     cd packer && \
@@ -18,7 +17,7 @@ RUN ln -s /lib /lib64 && \
 # FROM alpine:latest
 FROM alpine:edge AS packer_qemu
 COPY --from=build_packer \
-     /app/src/github.com/hashicorp/packer \
+     /app/src/github.com/hashicorp/packer/packer \
      /bin/packer
 #
 # https://wiki.alpinelinux.org/wiki/Edge
