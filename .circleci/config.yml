@@ -2,11 +2,13 @@ version: 2
 jobs:
  build:
    machine: true
+   environment:
+     IMAGE_NAME: wip
    steps:
      - checkout
      # start proprietary DB using private Docker image
      # with credentials stored in the UI
      - run: |
          # docker login -u $DOCKER_USER -p $DOCKER_PASS
-         docker run --detach --name wip alpine:latest
-         docker exec sh -c 'apk add packer qemu'
+         docker run --detach --name $IMAGE_NAME alpine:latest
+         docker exec $IMAGE_NAME sh -c 'apk add packer qemu'
