@@ -15,4 +15,6 @@ RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
     cd packer && \
     make dev && \
     apk del go git make gcc musl-dev
-    
+
+ENTRYPOINT [ "packer" ]
+CMD '--help'
