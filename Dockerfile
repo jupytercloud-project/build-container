@@ -1,20 +1,39 @@
-FROM alpine:latest
+FROM alpine:edge AS build
+RUN apk update
+RUN apk upgrade
+RUN apk add --update go gcc g++ git make musl-dev
+WORKDIR /app
+ENV GOPATH /app
+ENV CGO_ENABLED 1
+ENV GOOS linux
+RUN mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
+    cd $_ && /
+    git clone https://github.com/hashicorp/packer.git && \
+    cd packer && \
+    make dev
+#ADD src /app/src
+#RUN CGO_ENABLED=1 GOOS=linux go install -a server
+
+# FROM alpine:latest
+#FROM alpine:edge
 
 #
 # https://wiki.alpinelinux.org/wiki/Edge
 #
-RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
-    apk update && \
-    apk upgrade --available && \
-    apk add qemu-img && \
-    apk add qemu-system-x86_64 && \
-    apk add go git make gcc musl-dev && \
-    mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
-    cd $_ && \
-    git clone https://github.com/hashicorp/packer.git && \
-    cd packer && \
-    make dev && \
-    apk del go git make gcc musl-dev
+#RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
 
-ENTRYPOINT [ "packer" ]
-CMD '--help'
+#RUN ln -s /lib /lib64 && \
+#    apk update && \
+#    apk upgrade --available && \
+#    apk add qemu-img && \
+#    apk add qemu-system-x86_64 && \
+#    apk add go git make gcc musl-dev && \
+#    mkdir -p $(go env GOPATH)/src/github.com/hashicorp && \
+#    cd $_ && \
+#    git clone https://github.com/hashicorp/packer.git && \
+#    cd packer && \
+#    make dev && \
+#    apk del go git make gcc musl-dev
+
+#ENTRYPOINT [ "packer" ]
+#CMD '--help'
