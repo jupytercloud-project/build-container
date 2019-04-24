@@ -1,4 +1,4 @@
-FROM alpine:edge AS jupytercloud-project/build-packer
+FROM alpine:edge AS build_packer
 RUN apk update
 RUN apk upgrade
 RUN apk add --update go gcc g++ git make musl-dev
@@ -16,8 +16,8 @@ RUN ln -s /lib /lib64 && \
 #RUN CGO_ENABLED=1 GOOS=linux go install -a server
 
 # FROM alpine:latest
-FROM alpine:edge AS jupytercloud-project/packer-qemu
-COPY --from=jupytercloud-project/build-packer \
+FROM alpine:edge AS packer_qemu
+COPY --from=build_packer \
      /app/src/github.com/hashicorp/packer \
      /bin/packer
 #
