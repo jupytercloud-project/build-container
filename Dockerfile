@@ -11,7 +11,7 @@ RUN pwd && \
 #RUN CGO_ENABLED=1 GOOS=linux go install -a server
 
 # FROM alpine:latest
-FROM alpine:edge AS packer_qemu
+FROM alpine:edge
 COPY --from=build_packer \
      /packer/packer \
      /bin/packer
