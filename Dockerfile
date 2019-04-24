@@ -1,5 +1,6 @@
 FROM alpine:latest
-RUN apk update && \
+RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
+    apk update && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add go-tools git make && \
