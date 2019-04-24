@@ -3,36 +3,43 @@ jobs:
  build:
    machine: true
    environment:
-     IMAGE_NAME: wip
+     IMAGE_TAG: jupytercloud-project/build-container:latest
+     ARTIFACT_DIR: ./artifacts
+     ARTIFACT_NAME: jupytercloud-project_build-container_latest
+     HGR: github.com/tcnksm/ghr
+     RELEASE_VERSION: 0.0.1
    steps:
+     - attach_workspace:
+         at: ${ARTIFACT_DIR}
      - checkout
      - run: 
          name: "Building docker image"
          command: |
            docker image build \
                   --compress \
-                  --tag jupytercloud-project/build-container:latest \
+                  --tag ${IMAGE_TAG} \
                   --file Dockerfile \
                   .
      - run: docker image ls --all
      - run:
          name: "Saving docker image"
          command: |
-           docker image save jupytercloud-project/build-container:latest | tar -cvzf jupytercloud-project_build-container_latest.tgz
+           docker image save ${IMAGE_TAG} > ${ARTIFACT_NAME}.tar
+           gzip ${ARTIFACT_NAME}.tar
+           mv ${ARTIFACT_NAME}.tar.gz ${ARTIFACT_DIR}
      #
      # https://github.com/tcnksm/ghr
      #
-     - attach_workspace:
-         at: ./artifacts
+
      - run:
          name: "Publishing release on GitHub"
          command: |
-           go get github.com/tcnksm/ghr
-           VERSION="0.0.1"
+           go get ${GHR}
+           VERSION=
            ghr -t ${GITHUB_TOKEN} \
                -u ${CIRCLE_PROJECT_USERNAME} \
                -r ${CIRCLE_PROJECT_REPONAME} \
                -c ${CIRCLE_SHA1} \
-               -delete ${VERSION} \
-               ./artifacts/
+               -delete ${RELEASE_VERSION} \
+               ${ARTIFACT_DIR}
          
