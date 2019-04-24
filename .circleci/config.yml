@@ -6,24 +6,33 @@ jobs:
      IMAGE_NAME: wip
    steps:
      - checkout
-     # start proprietary DB using private Docker image
-     # with credentials stored in the UI
-     # - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-     #- run: docker run --name $IMAGE_NAME --detach --interactive --rm alpine:latest sh
-     #- run: docker exec $IMAGE_NAME sh -c 'apk update'
-     #- run: docker exec $IMAGE_NAME sh -c 'apk add qemu'
-     #- run: docker image ls --all
-     #- run: docker build --force-rm --compress .
-#     - run: docker build \
-#                   --compress \
-#                   --tag jupytercloud-project/build-packer \
-#                   --file Dockerfile.build \
-#                   .
-     - run: |
-         docker build \
-                --compress \
-                --tag jupytercloud-project/build-container:latest \
-                --file Dockerfile \
-                .
-     #- run: docker build --force-rm --compress --tag jupytercloud-project/build-container:latest .
+     - run: 
+         name: "Building docker image"
+         command: |
+           docker image build \
+                  --compress \
+                  --tag jupytercloud-project/build-container:latest \
+                  --file Dockerfile \
+                  .
      - run: docker image ls --all
+     - run:
+         name: "Saving docker image"
+         command: |
+           docker image save jupytercloud-project/build-container:latest | tar -cvzf jupytercloud-project_build-container_latest.tgz
+     #
+     # https://github.com/tcnksm/ghr
+     #
+     - attach_workspace:
+         at: ./artifacts
+     - run:
+         name: "Publishing release on GitHub"
+         command: |
+           go get github.com/tcnksm/ghr
+           VERSION="0.0.1"
+           ghr -t ${GITHUB_TOKEN} \
+               -u ${CIRCLE_PROJECT_USERNAME} \
+               -r ${CIRCLE_PROJECT_REPONAME} \
+               -c ${CIRCLE_SHA1} \
+               -delete ${VERSION} \
+               ./artifacts/
+         
