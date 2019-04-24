@@ -3,10 +3,11 @@ jobs:
  build:
    machine: true
    environment:
-     IMAGE_TAG: jupytercloud-project/build-container:latest
+     IMAGE_TAG: latest
+     IMAGE_NAME: ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}
      ARTIFACT_DIR: ./artifacts
-     ARTIFACT_NAME: jupytercloud-project_build-container_latest
-     HGR: github.com/tcnksm/ghr
+     ARTIFACT_NAME: ${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}
+     GHR: github.com/tcnksm/ghr
      RELEASE_VERSION: 0.0.1
    steps:
      - checkout
@@ -15,7 +16,7 @@ jobs:
          command: |
            docker image build \
                   --compress \
-                  --tag ${IMAGE_TAG} \
+                  --tag ${IMAGE_NAME} \
                   --file Dockerfile \
                   .
      - run: docker image ls --all
@@ -24,13 +25,13 @@ jobs:
      - run:
          name: "Saving docker image"
          command: |
-           docker image save ${IMAGE_TAG} > ${ARTIFACT_NAME}.tar
+           docker image save ${IMAGE_NAME} > ${ARTIFACT_NAME}.tar
            gzip ${ARTIFACT_NAME}.tar
            mv ${ARTIFACT_NAME}.tar.gz ${ARTIFACT_DIR}
      #
+     # https://circleci.com/blog/publishing-to-github-releases-via-circleci/
      # https://github.com/tcnksm/ghr
      #
-
      - run:
          name: "Publishing release on GitHub"
          command: |
@@ -42,4 +43,3 @@ jobs:
                -c ${CIRCLE_SHA1} \
                -delete ${RELEASE_VERSION} \
                ${ARTIFACT_DIR}
-         
