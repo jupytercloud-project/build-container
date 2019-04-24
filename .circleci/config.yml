@@ -13,5 +13,6 @@ jobs:
      #- run: docker exec $IMAGE_NAME sh -c 'apk update'
      #- run: docker exec $IMAGE_NAME sh -c 'apk add qemu'
      #- run: docker image ls --all
-     - run: docker build --force-rm --compress --tag jupytercloud-project/build-container:latest .
+     - run: docker build --force-rm --compress .
+     #- run: docker build --force-rm --compress --tag jupytercloud-project/build-container:latest .
      - run: docker image ls --all
