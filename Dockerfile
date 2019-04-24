@@ -13,7 +13,7 @@ RUN pwd && \
 # FROM alpine:latest
 FROM alpine:edge AS packer_qemu
 COPY --from=build_packer \
-     /root/packer/packer \
+     /packer/packer \
      /bin/packer
 #
 # https://wiki.alpinelinux.org/wiki/Edge
