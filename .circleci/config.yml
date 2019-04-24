@@ -9,6 +9,10 @@ jobs:
      HGR: github.com/tcnksm/ghr
      RELEASE_VERSION: 0.0.1
    steps:
+     - run:
+         name: LS
+         command: |
+           ls -alFH
      - attach_workspace:
          at: ${ARTIFACT_DIR}
      - checkout
