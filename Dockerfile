@@ -28,7 +28,8 @@ RUN apk update && \
     apk add qemu-system-x86_64 && \
     apk add jq && \
     wget https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 && \
-    mv yq_linux_amd64 /bin/yq
+    mv yq_linux_amd64 /bin/yq && \
+    chmod a+x /bin/yq
 
 #ENTRYPOINT [ "packer" ]
 #CMD '--help'
