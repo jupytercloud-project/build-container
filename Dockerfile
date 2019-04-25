@@ -7,9 +7,7 @@ RUN git clone https://github.com/hashicorp/packer.git && \
     cd packer && \
     make dev
 RUN pwd && \
-    ls -alFh
-#ADD src /app/src
-#RUN CGO_ENABLED=1 GOOS=linux go install -a server
+    ls -alFhR packer/
 
 # FROM alpine:edge
 FROM alpine:latest
