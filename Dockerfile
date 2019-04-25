@@ -1,4 +1,5 @@
-FROM alpine:edge AS build_packer
+#FROM alpine:edge AS build_packer
+FROM alpine:latest AS build_packer
 RUN apk update
 RUN apk upgrade
 RUN apk add --update go gcc git make musl-dev
@@ -10,8 +11,8 @@ RUN pwd && \
 #ADD src /app/src
 #RUN CGO_ENABLED=1 GOOS=linux go install -a server
 
-# FROM alpine:latest
-FROM alpine:edge
+# FROM alpine:edge
+FROM alpine:latest
 COPY --from=build_packer \
      /packer/packer \
      /bin/packer
