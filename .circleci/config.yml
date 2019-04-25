@@ -30,6 +30,7 @@ jobs:
          command: |
            docker image save ${IMAGE_NAME} > ${ARTIFACT_NAME}.tar
            gzip ${ARTIFACT_NAME}.tar
+           ls -alFh
            mv ${ARTIFACT_NAME}.tar.gz ${ARTIFACT_DIR}/${ARTIFACT_NAME}.dkr
      #
      # https://circleci.com/blog/publishing-to-github-releases-via-circleci/
