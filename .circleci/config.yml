@@ -1,51 +1,51 @@
 version: 2
 jobs:
- build:
-   machine: true
-   shell: /bin/bash --login -eo pipefail
-   environment:
-     ARTIFACT_DIR: ./artifacts
-     GHR: github.com/tcnksm/ghr
-   steps:
-     - checkout
-     - run:
-         name: "Define environment variables"
-         command: |
-           echo 'export IMAGE_TAG=latest' >> ${BASH_ENV}
-           echo 'export IMAGE_NAME=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}' >> ${BASH_ENV}
-           echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
-           echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
-     - run: 
-         name: "Building docker image"
-         command: |
-           docker image build \
-                  --compress \
-                  --tag ${IMAGE_NAME} \
-                  --file Dockerfile \
-                  .
-     - run: docker image ls --all
-     - attach_workspace:
-         at: ./artifacts
-     - run:
-         name: "Saving docker image"
-         command: |
-           docker image save ${IMAGE_NAME} > ${ARTIFACT_NAME}.tar
-           gzip ${ARTIFACT_NAME}.tar
-           ls -alFh
-           mv ${ARTIFACT_NAME}.tar.gz ${ARTIFACT_DIR}/${ARTIFACT_NAME}.dkr
-     #
-     # https://circleci.com/blog/publishing-to-github-releases-via-circleci/
-     # https://github.com/tcnksm/ghr
-     #
-     - run:
-         name: "Publishing release on GitHub"
-         command: |
-           go get ${GHR} && \
-           VERSION=${RELEASE_VERSION} \
-           ghr -t ${GITHUB_TOKEN} \
-               -u ${CIRCLE_PROJECT_USERNAME} \
-               -r ${CIRCLE_PROJECT_REPONAME} \
-               -c ${CIRCLE_SHA1} \
-               -delete \
-               ${RELEASE_VERSION} \
-               ${ARTIFACT_DIR}/
+  build:
+    machine: true
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      ARTIFACT_DIR: ./artifacts
+      GHR: github.com/tcnksm/ghr
+    steps:
+      - checkout
+      - run:
+          name: "Define environment variables"
+          command: |
+            echo 'export IMAGE_TAG=latest' >> ${BASH_ENV}
+            echo 'export IMAGE_NAME=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}' >> ${BASH_ENV}
+            echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
+            echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
+      - run: 
+          name: "Building docker image"
+          command: |
+            docker image build \
+                   --compress \
+                   --tag ${IMAGE_NAME} \
+                   --file Dockerfile \
+                   .
+      - run: docker image ls --all
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Saving docker image"
+          command: |
+            docker image save ${IMAGE_NAME} > ${ARTIFACT_NAME}.tar
+            gzip ${ARTIFACT_NAME}.tar
+            ls -alFh
+            mv ${ARTIFACT_NAME}.tar.gz ${ARTIFACT_DIR}/${ARTIFACT_NAME}.dkr
+      #
+      # https://circleci.com/blog/publishing-to-github-releases-via-circleci/
+      # https://github.com/tcnksm/ghr
+      #
+      - run:
+          name: "Publishing release on GitHub"
+          command: |
+            go get ${GHR} && \
+            VERSION=${RELEASE_VERSION} \
+            ghr -t ${GITHUB_TOKEN} \
+                -u ${CIRCLE_PROJECT_USERNAME} \
+                -r ${CIRCLE_PROJECT_REPONAME} \
+                -c ${CIRCLE_SHA1} \
+                -delete \
+                ${RELEASE_VERSION} \
+                ${ARTIFACT_DIR}/
