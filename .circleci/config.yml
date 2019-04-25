@@ -10,7 +10,7 @@ jobs:
          command: |
            echo 'export IMAGE_TAG=latest' >> ${BASH_ENV}
            echo 'export IMAGE_NAME=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}' >> ${BASH_ENV}
-           echo 'export ARTIFACT_DIR=./artifacts/' >> ${BASH_ENV}
+           echo 'export ARTIFACT_DIR=./artifacts' >> ${BASH_ENV}
            echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
            echo 'export GHR=github.com/tcnksm/ghr' >> ${BASH_ENV}
            echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
@@ -47,4 +47,4 @@ jobs:
                -c ${CIRCLE_SHA1} \
                -delete \
                ${RELEASE_VERSION} \
-               ${ARTIFACT_DIR}
+               ${ARTIFACT_DIR}/
