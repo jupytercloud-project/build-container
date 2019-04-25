@@ -5,6 +5,7 @@ jobs:
    shell: /bin/bash --login -eo pipefail
    environment:
      ARTIFACT_DIR: ./artifacts
+     GHR: github.com/tcnksm/ghr
    steps:
      - checkout
      - run:
@@ -13,7 +14,6 @@ jobs:
            echo 'export IMAGE_TAG=latest' >> ${BASH_ENV}
            echo 'export IMAGE_NAME=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${IMAGE_TAG}' >> ${BASH_ENV}
            echo 'export ARTIFACT_NAME=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}_${IMAGE_TAG}' >> ${BASH_ENV}
-           echo 'export GHR=github.com/tcnksm/ghr' >> ${BASH_ENV}
            echo 'export RELEASE_VERSION=0.0.1' >> ${BASH_ENV}
      - run: 
          name: "Building docker image"
@@ -25,7 +25,7 @@ jobs:
                   .
      - run: docker image ls --all
      - attach_workspace:
-         at: {{ .Environment.ARTIFACT_DIR }}
+         at: ./artifacts
      - run:
          name: "Saving docker image"
          command: |
