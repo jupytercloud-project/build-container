@@ -24,7 +24,7 @@ jobs:
                   .
      - run: docker image ls --all
      - attach_workspace:
-         at: ${ARTIFACT_DIR}
+         at: {{ .Environment.ARTIFACT_DIR }}
      - run:
          name: "Saving docker image"
          command: |
