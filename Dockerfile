@@ -10,7 +10,8 @@ RUN apk add --update go gcc git make musl-dev
 #    ls -alFhR packer/
 RUN mkdir -p /packer/bin && \
     cd /packer/bin && \
-    wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip | unzip
+    wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip && \
+    unzip packer_1.4.0_linux_amd64.zip
 
 # FROM alpine:edge
 FROM alpine:latest
