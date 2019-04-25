@@ -30,10 +30,9 @@ RUN apk update && \
     wget https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 && \
     mv yq_linux_amd64 /bin/yq && \
     chmod a+x /bin/yq && \
-    cat /bin/facter-fake <EOF
-    #!/bin/sh
-    echo '{ "osfamily": "fake" }'
-    EOF && \
+    echo $'#!/bin/sh\n\
+    echo '{ "osfamily": "fake" }\n'\
+    > /bin/facter-fake && \
     chmod a+x /bin/facter-fake && \
     ln -s /bin/facter-fake /bin/facter
 
