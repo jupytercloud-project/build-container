@@ -25,6 +25,7 @@ COPY --from=build_packer \
 RUN apk update && \
     apk upgrade --available && \
     apk add bash && \
+    apk add curl && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add jq && \
