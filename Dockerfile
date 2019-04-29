@@ -24,6 +24,7 @@ COPY --from=build_packer \
 #RUN sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories && \
 RUN apk update && \
     apk upgrade --available && \
+    apk add bash && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add jq && \
