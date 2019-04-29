@@ -38,5 +38,6 @@ RUN apk update && \
     chmod a+x /bin/facter-fake && \
     ln -s /bin/facter-fake /bin/facter
 
+EXPOSE 6000
 #ENTRYPOINT [ "packer" ]
 #CMD '--help'
