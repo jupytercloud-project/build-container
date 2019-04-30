@@ -33,7 +33,7 @@ RUN apk update && \
     mv yq_linux_amd64 /bin/yq && \
     chmod a+x /bin/yq && \
     echo $'#!/bin/sh\n\
-    echo \'{ "osfamily": "fake" }\'\n'\
+    echo \'{ "osfamily": "Docker" }\'\n'\
     > /bin/facter-fake && \
     chmod a+x /bin/facter-fake && \
     ln -s /bin/facter-fake /bin/facter
