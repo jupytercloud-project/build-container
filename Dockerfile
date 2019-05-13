@@ -29,7 +29,7 @@ RUN apk update && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add jq && \
-    apk add python && \
+    apk add py-pip && \
     pip install python-openstackclient && \
     wget https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 && \
     mv yq_linux_amd64 /bin/yq && \
