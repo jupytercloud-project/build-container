@@ -29,6 +29,7 @@ RUN apk update && \
     apk add qemu-img && \
     apk add qemu-system-x86_64 && \
     apk add jq && \
+    apk add gcc libffi-dev && \
     apk add py-pip && \
     pip install python-openstackclient && \
     wget https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 && \
@@ -38,7 +39,9 @@ RUN apk update && \
     echo \'{ "osfamily": "Docker" }\'\n'\
     > /bin/facter-fake && \
     chmod a+x /bin/facter-fake && \
-    ln -s /bin/facter-fake /bin/facter
+    ln -s /bin/facter-fake /bin/facter && \
+    apk del gcc libffi-dev && \
+    rm -rf /var/cache/apk/*
 
 EXPOSE 6000-6020
 #ENTRYPOINT [ "packer" ]
