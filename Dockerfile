@@ -2,7 +2,7 @@
 FROM alpine:latest AS build_packer
 RUN apk update
 RUN apk upgrade
-RUN apk add --update go gcc git make musl-dev which
+RUN apk add --update go gcc git make musl-dev which findutils
 #RUN git clone https://github.com/hashicorp/packer.git && \
 #    cd packer && \
 #    make dev
@@ -12,8 +12,7 @@ RUN mkdir -p /packer/bin && \
     cd /packer/bin && \
     wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip && \
     unzip packer_1.4.0_linux_amd64.zip
-RUN go get -u -v github.com/tcnksm/ghr
-RUN ls -alFh /root/bin
+RUN go get -u -v github.com/tcnksm/ghr && updatedb && locate ghr
 RUN go get -u -v github.com/rackspace/gophercloud
 
 # FROM alpine:edge
