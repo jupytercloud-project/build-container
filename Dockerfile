@@ -12,7 +12,7 @@ RUN mkdir -p /packer/bin && \
     cd /packer/bin && \
     wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip && \
     unzip packer_1.4.0_linux_amd64.zip
-RUN go get -u -v github.com/tcnksm/ghr && updatedb && locate ghr
+RUN go get -u -v github.com/tcnksm/ghr
 RUN go get -u -v github.com/rackspace/gophercloud
 
 # FROM alpine:edge
@@ -21,7 +21,7 @@ COPY --from=build_packer \
      /packer/bin/packer \
      /bin/packer
 COPY --from=build_packer \
-     /bin/ghr \
+     /root/go/bin/ghr \
      /bin/ghr
 #
 # https://wiki.alpinelinux.org/wiki/Edge
