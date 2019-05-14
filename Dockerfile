@@ -2,7 +2,7 @@
 FROM alpine:latest AS build_packer
 RUN apk update
 RUN apk upgrade
-RUN apk add --update go gcc git make musl-dev
+RUN apk add --update go gcc git make musl-dev which
 #RUN git clone https://github.com/hashicorp/packer.git && \
 #    cd packer && \
 #    make dev
