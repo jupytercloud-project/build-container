@@ -13,7 +13,7 @@ RUN mkdir -p /packer/bin && \
     wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip && \
     unzip packer_1.4.0_linux_amd64.zip
 RUN go get -u -v github.com/tcnksm/ghr
-RUN which ghr
+RUN ls -alFh
 RUN go get -u -v github.com/rackspace/gophercloud
 
 # FROM alpine:edge
