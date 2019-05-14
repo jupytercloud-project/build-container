@@ -12,12 +12,16 @@ RUN mkdir -p /packer/bin && \
     cd /packer/bin && \
     wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip && \
     unzip packer_1.4.0_linux_amd64.zip
+RUN go get github.com/tcnksm/ghr
 
 # FROM alpine:edge
 FROM alpine:latest
 COPY --from=build_packer \
      /packer/bin/packer \
      /bin/packer
+COPY --from=build_packer \
+     /bin/ghr \
+     /bin/ghr
 #
 # https://wiki.alpinelinux.org/wiki/Edge
 #
